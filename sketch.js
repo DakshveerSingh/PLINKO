@@ -15,27 +15,38 @@ function setup() {
   world = engine.world;
 
   ground = new Ground(width/2,height-5,width,10);
-}
 
-function draw() {
-  background(0);  
-  Engine.update(engine);
-
+  
   for(i = 5; i < 480; i = i + 80){
     division.push(new Division(i,height - divisionHeight/2,10,divisionHeight));
   }
 
   for(i = 40; i <= width; i = i + 50){
-    for(j = 200; j < 500; j = j + 100){
-      plinko.push(new Plinko(i,j,10));
-    }
+    plinko.push(new Plinko(i,200,10));
   }
-
+  for(i = 40; i <= width; i = i + 50){
+    plinko.push(new Plinko(i,300,10));
+  }
+  for(i = 40; i <= width; i = i + 50){
+    plinko.push(new Plinko(i,400,10));
+  }
+  for(i = 40; i <= width; i = i + 50){
+    plinko.push(new Plinko(i,500,10));
+  }
   for(i = 15; i <= width; i = i + 50){
-    for(j = 250; j < 500; j = j + 100){
-      plinko.push(new Plinko(i,j,10));
-    }
+    plinko.push(new Plinko(i,250,10));
   }
+  for(i = 15; i <= width; i = i + 50){
+    plinko.push(new Plinko(i,350,10));
+  }
+  for(i = 15; i <= width; i = i + 50){
+    plinko.push(new Plinko(i,450,10));
+  }
+}
+
+function draw() {
+  background(0);  
+  Engine.update(engine);
 
   for(i = 0; i < particle.length; i++){
     particle[i].display();
@@ -52,6 +63,6 @@ function draw() {
   ground.display();
 
   if(frameCount % 90 === 0){
-    particle.push(new Particle(random(width/2 - 10, width/2 + 10),10,10));
+    particle.push(new Particle(random(100, width/2 - 50),10,10));
   }
 }
