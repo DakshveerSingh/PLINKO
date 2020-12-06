@@ -7,7 +7,7 @@ var ground;
 var division = [];
 var divisionHeight = 300;
 var plinko = [];
-var particle;
+var particle = null;
 var score = 0;
 var count = 0;
 var gameState = "play";
@@ -47,54 +47,78 @@ function setup() {
 function draw() {
   background(0);  
   Engine.update(engine);
-  
-  push();
-  fill(255);
-  textSize(25);
-  text(mouseX+","+mouseY,100,100);
-  text("100",210,750);
-  text("50",310,750);
-  text("50",125,750);
-  text("25",400,750);
-  text("25",40,750);
-  pop();
 
-  push();
-  stroke("yellow");
-  line(0,500,480,500);
-  pop();
+  if(gameState === "play"){
+    push();
+    fill(255);
+    textSize(25);
+    text("100",210,750);
+    text("50",310,750);
+    text("50",125,750);
+    text("25",400,750);
+    text("25",40,750);
+    pop();
 
-//  for(i = 0; i < particle.length; i++){
-//  particle[i].display();
-//}
+    push();
+    stroke("yellow");
+    line(0,600,480,600);
+    pop();
 
+    push();
+    fill(255);
+    textSize(10);
+    text("SCORE:"+score,50,75);
+    text("COUNT:"+count,50,90);
+    pop();
 
-  for(i = 0; i < plinko.length; i++){
-    plinko[i].display();
-  }
+    for(i = 0; i < plinko.length; i++){
+      plinko[i].display();
+    }
 
-  for(i = 0; i < division.length; i++){
-    division[i].display();
-  }
-  ground.display();
+    for(i = 0; i < division.length; i++){
+      division[i].display();
+    }
+    ground.display();
 
-//  if(frameCount % 90 === 0){
-//    particle.push(new Particle(random(100, width/2 - 50),10,10));
-//  }
-
-  if(particle !== null){
-    particle.display();
-    if(particle.body.position.y < 500){
-      if(particle.body.position.x < 300){
-        score = score + 500;
+    if(particle !== null){
+      particle.display();
+      if(particle.body.position.y > 600){
+        if(particle.body.position.x < 360 && particle.body.position.x > 280 || 
+          particle.body.position.x < 180 && particle.body.position.x > 100){
+            score = score + 50;
+        }
+        if(particle.body.position.x < 450 && particle.body.position.x > 370 || 
+          particle.body.position.x < 10 && particle.body.position.x > 90){
+            score = score + 25;
+        }
+        if(particle.body.position.x < 270 && particle.body.position.x > 190){
+          score = score + 100;
+        }
         particle = null;
         if(count >= 5)  gameState = "end";
       }
+      
+      if(count > 5){
+        gameState = "end";
+      }
     }
+  }
+  if(gameState === "end"){
+    push();
+    fill(255);
+    textSize(50);
+    text("Game Over",100,200);
+    pop();
+    
+    push();
+    fill(255);
+    textSize(25);
+    text("SCORE:"+score,185,300);
+    pop();
   }
 }
 
-function mousePressed(){
+function mouseReleased(){
   if(gameState !== "end"){
     count++;
     particle = new Particle(mouseX,10,10,10);
